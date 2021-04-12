@@ -260,7 +260,7 @@ name: "ban",
 description: "Bant de genoemde persoon.",
 usage: "ban <user> <reden>",
 code: `$ban[$findUser[$message[1]];$noMentionMessage]
-$title[Ban]
+$title[**Ban**]
 $color[FFD700]
 $thumbnail[$userAvatar[$mentioned[1]]]
 $description[**Geband: <@!$findUser[$message[1]]>
