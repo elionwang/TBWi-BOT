@@ -233,7 +233,7 @@ bot.onLeave()
 bot.command({
 name: "joinchannel",
 description: "Stelt de join channel in.",
-usage: "+joinchannel <channel>",
+usage: "joinchannel <channel>",
 code: `$setServerVar[joinchannel;$mentionedChannels[1;yes]]
 $title[Join Channel Setup]
 $description[Ik heb de join channel gezet naar **<#$mentionedChannels[1;yes]>**!]
@@ -247,7 +247,7 @@ bot.onMessage()
 bot.command({
 name: "ping", 
 description: "Geeft de bots ping aan in ms.",
-usage: "+ping",
+usage: "ping",
 code: `$title[🏓**Ping!**]
 $description[🏓**Pong! $ping ms**]
 $footer[$authorID]
@@ -258,7 +258,7 @@ $image[https://cdn.discordapp.com/attachments/616315208251605005/616319462349602
 bot.command({
 name: "ban", 
 description: "Bant de genoemde persoon.",
-usage: "+ban <user> <reden>",
+usage: "ban <user> <reden>",
 code: `$ban[$findUser[$message[1]];$noMentionMessage]
 $title[Ban]
 $color[FFD700]
@@ -278,11 +278,11 @@ $onlyPerms[ban;{color:RED} {description:Je hebt geen rechten om deze command uit
 bot.command({
 name: "unban", 
 description: "Unbant de genoemde persoon.",
-usage: "+unban <user> <reden>",
+usage: "unban <user> <reden>",
 code: `$unban[$findUser[$message[1]];$noMentionMessage]
 $title[Unban]
 $color[3348a1]
-$description[**Geunbanned: <@!$message>
+$description[**Geunbanned: <@!$findUser[$message[1]]>
 Geunbanned door: <@!$authorID>**]
 $argsCheck[<2;**Hey, Je moet de naam neerzetten van degene die je wil unbannen!**]
 $onlyPerms[ban;Je hebt geen rechten om deze command uit te voeren!]
@@ -295,7 +295,7 @@ $onlyIf[$userExists[$message[1]]==true;Dat is geen geldige user om te unbannen!]
 bot.command({
 name: "bsprorate", 
 description: "Geeft een willekeurig percentage van 0 tot 100% van hoe pro de genoemde persoon is in Brawl Stars.",
-usage: "+bsprorate <user> of +bsprorate",
+usage: "bsprorate <user> of +bsprorate",
 code: `$title[Brawl Stars Pro Rate]
 $thumbnail[https://media.discordapp.net/attachments/756098390424682509/770292749714849842/image0.png]
 $description[$username[$mentioned[1;yes]] is $random[0;100]% Pro😎]
@@ -306,7 +306,7 @@ $image[https://cdn.discordapp.com/attachments/616315208251605005/616319462349602
 bot.command({
 name: "unmute", 
 description: "Unmute de genoemde persoon.",
-usage: "+unmute <user>",
+usage: "unmute <user>",
 code: `$takeRoles[$mentioned[1];$roleID[Muted]]
 $title[**Unmute**]
 $color[FFD700]
@@ -387,7 +387,7 @@ bot.command({
 name: "nickname",
 aliases: ["nick"],
 description: "Geeft de genoemde persoon een nickname.",
-usage: "+nickname <user>",
+usage: "nickname <user>",
 code: `$changeNickname[$mentioned[1];$noMentionMessage]
 $author[Nickname wijziging;https://media.discordapp.net/attachments/773126566414385166/780766670704083024/image0.png]
 $description[Nickname van <@!$mentioned[1]> met succes gewijzigd naar $noMentionMessage!]
@@ -400,8 +400,9 @@ $onlyPerms[admin;Je hebt geen rechten om deze command uit te voeren!]`
 bot.command({
 name: "uptime",
 description: "Geeft de bots uptime.",
-usage: "+uptime",
+usage: "uptime",
 code: `$title[**Uptime**]
+$footer[Deze bot wordt gehost op replit.com en wordt developed door ElionW#1234.]
 $description[⏱ **De bot's uptime is $uptime!**
 ]
 $color[RANDOM]` 
@@ -410,7 +411,7 @@ $color[RANDOM]`
 bot.command({
 name: "rps-rock",
 description: "Kiest rock om tegen de bot te spelen in Rock Paper Scissors.",
-usage: "+rps-rock",
+usage: "rps-rock",
 code: `$title[Rock, Paper, Scissors]
 $thumbnail[https://media.discordapp.net/attachments/756098390424682509/770304478947573770/image0.jpg]
 $description[De bot kiest $randomText[**Rock**, gelijkspel!;**Paper**, Get Gud.;**Scissors**, GG!]
@@ -422,7 +423,7 @@ $image[https://cdn.discordapp.com/attachments/616315208251605005/616319462349602
 bot.command({
 name: "rps-paper",
 description: "Kiest paper om tegen de bot te spelen in Rock Paper Scissors.",
-usage: "+rps-paper",
+usage: "rps-paper",
 code: `$title[Rock, Paper, Scissors]
 $thumbnail[https://media.discordapp.net/attachments/756098390424682509/770304478947573770/image0.jpg]
 $description[
@@ -435,7 +436,7 @@ $image[https://cdn.discordapp.com/attachments/616315208251605005/616319462349602
 bot.command({
 name: "rps-scissors", 
 description: "Kiest scissors om tegen de bot te spelen in Rock Paper Scissors.",
-usage: "+rps-scissors",
+usage: "rps-scissors",
 code: `$title[Rock, Paper, Scissors]
 $thumbnail[https://media.discordapp.net/attachments/756098390424682509/770304478947573770/image0.jpg]
 $description[
@@ -462,23 +463,23 @@ $addTimestamp`
 
 bot.command({
 name: "randompick", 
-description: "De bot kiest een random brawler en random map voor je.",
-usage: "+randompick",
+description: "De bot kiest een random brawler en random gamemode voor je.",
+usage: "randompick",
 code: `$title[Random Pick]
-$description[**Speel...** $randomText[8-Bit;Bo;Brock;Bull;Colt;Dynamike;Emz;Jessie;Nita;Shelly;Tick;Barley;El Primo;Poco;Rosa;Jacky;Darryl;Rico;Carl;Penny;Piper;Bibi;Nani;Bea;Frank;Pam;Edgar;Max;Mortis;Sprout;Mr.P;Gene;Tara;Byron;Amber;Leon;Crow;Spike;Sandy;Colette;Surge;Gale;Lou;Colonel Ruffs]]
+$description[**Speel...** $randomText[8-Bit;Bo;Brock;Bull;Colt;Dynamike;Emz;Jessie;Nita;Shelly;Tick;Barley;El Primo;Poco;Rosa;Jacky;Darryl;Rico;Carl;Penny;Piper;Bibi;Nani;Bea;Frank;Pam;Edgar;Max;Mortis;Sprout;Mr.P;Gene;Tara;Byron;Amber;Leon;Crow;Spike;Sandy;Colette;Surge;Gale;Lou;Colonel Ruffs;Belle;Stu]]
 $footer[Waarom doe je dit jezelf aan;$authorAvatar]
 $color[RANDOM]
-$editIn[3s;{title:Random Pick} {description:**In:** $randomText[Gem Grab;Brawl Ball;Solo SD;Duo SD;Heist;Bounty;Hot Zone;Random Map Maker Submission;Present Plunder;Map Maker Winner;]} {footer:Waarom doe je dit jezelf aan:$authorAvatar} {color:RANDOM}]` 
+$editIn[3s;{title:Random Pick} {description:**In:** $randomText[Gem Grab;Brawl Ball;Solo SD;Duo SD;Heist;Bounty;Hot Zone;Random Map Maker Submission;Map Maker Winner;Knockout]} {footer:Waarom doe je dit jezelf aan:$authorAvatar} {color:RANDOM}]` 
 })
 
 bot.command({
 name: "report",
 description: "Report de genoemde persoon.",
-usage: "+report <user> <reden>",
+usage: "report <user> <reden>",
 code: `$sendMessage[{title:Report} {description:**Je Report is geregistreerd!**
 We zullen zo snel mogelijk kijken naar je report. Heb alsjeblieft geduld.} {color:FFD700}]
 $useChannel[773126566414385166]
-$argsCheck[<3;Verkeerd gebruik! Probeer -report <User> <Reden>]
+$argsCheck[<3;Verkeerd gebruik! Probeer $getServerVar[prefix]report <User> <Reden>]
 $title[Nieuwe Report]
 $color[FFD700]
 $footer[Report gestuurd door $username[$authorID]#$discriminator[$authorID] ($authorID)]
@@ -533,7 +534,7 @@ bot.command({
 name: "youtube", 
 aliases: ["yt"],
 description: "Zoekt iets op youtube voor je.",
-usage: "+youtube <zoekopdracht>",
+usage: "youtube <zoekopdracht>",
 code: `$color[RED]
 $author[YouTube Search;https://media.discordapp.net/attachments/773126566414385166/775302336301236224/image0.png]
 $description[*Youtube zoekresultaat*
@@ -552,17 +553,20 @@ bot.command({
 name: "discord", 
 aliases: ["dc"],
 code: `$title[DubbelDutch Discord]
-$thumbnail[https://media.discordapp.net/attachments/734373933259685989/770560354153136148/1c42cabaeafd252e42d3d50a67324e09a_be76108008499fa242d8a9b3bbc5a7cd.png]
-$description[[Klik hier voor de DD discord!](https://discord.gg/RMC6nAv)]
+$thumbnail[$serverIcon[730051448708268122]]
+$description[
+[Klik hier voor de TBWi Discord!](https://bit.ly/tbwi)
+
+[Klik hier voor de DubbelDutch Discord!](https://discord.gg/RMC6nAv)]
 $footer[glhf!]
 $addTimestamp
-$color[3348a1]`
+$color[FFD700]`
 })
 
 
 bot.command({
 name: "profile", 
-code: `$author[Profile van <@$mentioned[1;yes];$userAvatar[$mentioned[1;yes]]]
+code: `$author[Profile van $userTag[$mentioned[1;yes]];$userAvatar[$mentioned[1;yes]]]
 $title[**Profile**]
 $thumbnail[$userAvatar[$mentioned[1;yes]]]
 $description[
@@ -571,7 +575,7 @@ Nickname: $nickname[$mentioned[1;yes]]
 Username: $username[$mentioned[1;yes]]
 
 **🆔User ID🆔:**
-$mentioned[1;yes]
+\`$mentioned[1;yes]\`
 
 **🗓Account Creatie🗓:**
 $creationDate[$mentioned[1;yes]]
@@ -605,14 +609,13 @@ Is User Bot: $randomText[Yes;No]
 User Password:
 $randomText[qwerty;abc123;Dragon12;FootballFan2000;123098;qwertyuiop;TheHolyBible21;TheOneOnly;ImScatMan12]**
 ]
-$footer[Congratulations $username[$mentioned[1;yes]] Je bent gehacked]
+$footer[Congratulations $username[$mentioned[1]] Je bent gehacked]
 $color[RANDOM]` 
 })
 
 bot.command({
 name: "clear", 
-code: `$onlyPerms[admin;❌ Je hebt geen rechten om deze command uit te voeren!]
-$clear[$message]
+code: `$clear[$message]
 $title[Clear]
 $thumbnail[https://media.discordapp.net/attachments/756098390424682509/770649579624333332/image0.png]
 $description[Ik heb $message message(s) verwijderd!]
@@ -623,7 +626,8 @@ $deletecommand
 $footer[$message berichten verwijderd door $username#$discriminator[$authorID];$authorAvatar]
 $addTimestamp
 $image[https://cdn.discordapp.com/attachments/616315208251605005/616319462349602816/Tw.gif]
-$onlyIf[$isNumber[$message]==true;Typ een geldig nummer!]` 
+$onlyIf[$isNumber[$message]==true;Typ een geldig nummer!]
+$onlyPerms[admin;❌ Je hebt geen rechten om deze command uit te voeren!]` 
 })
 
 bot.command({
@@ -632,7 +636,7 @@ code: `$image[$userAvatar[$mentioned[1;yes]]]
 $argsCheck[>2;Mention iemand.]
 $title[**Avatar**]
 $color[FFD700]
-$footer[Command uitgevoerd door $username#$discriminator[$authorID]]
+$footer[Command uitgevoerd door $userTag[$authorID]]
 $addTimestamp` 
 })
 
