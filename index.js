@@ -9,6 +9,7 @@ const bot = new dbdjs.Bot({
   prefix: ["$getServerVar[prefix]", "<@!775687174980370434>"]
 })
 
+
 bot.botJoinCommand({
 channel: "$systemChannelID",
 code: `$title[Bot toegevoegd aan $serverName!]
@@ -692,8 +693,8 @@ code: `$color[3348a1]
 $thumbnail[$jsonRequest[http://api.somecool.repl.co/yt-search?search=$message;thumbnail;]]
 $author[Nummer aan het afspelen;https://images.squarespace-cdn.com/content/v1/58eac4d88419c2d993e74f57/1491954929572-MII6RYJO4QRPZHRFNYAM/ke17ZwdGBToddI8pDm48kOyctPanBqSdf7WQMpY1FsRZw-zPPgdn4jUwVcJE1ZvWQUxwkmyExglNqGp0IvTJZUJFbgE-7XRK3dMEBRBhUpyD4IQ_uEhoqbBUjTJFcqKvko9JlUzuVmtjr1UPhOA5qkTLSJODyitRxw8OQt1oetw/ITunes_12_logo.png]
 $description[Ik heb [**$jsonRequest[http://api.somecool.repl.co/yt-search?search=$message;title;]**\\]($jsonRequest[http://api.somecool.repl.co/yt-search?search=$message;url;]) toegevoegd aan de wachtrij!
-Huidig Nummer: [**$songInfo[title]**\\]($songInfo[url]) 
-Duur: **$replaceText[$replaceText[$parseDate[$multi[$songInfo[duration];1000];time];minutes;minuten];seconds;seconden]**]
+Huidig Nummer: [**$songInfo[title]**]($songInfo[url]) 
+Duur: **$replaceText[$songInfo[duration];seconds;seconden]**
 $footer[Wachtrij: $queueLength]
 $addCmdReactions[▶️]
 $playSong[$message;{color:RED} {description:Er ging iets fout, probeer het later opnieuw.}]
@@ -706,26 +707,26 @@ name: "volume",
 aliases: ["vol", "v"],
 code: `$reactionCollector[$splitText[1];everyone;1m;🔈,🔉,🔊;awaitReaction5,awaitReaction6,awaitReaction7;yes]
 $textSplit[$sendMessage[{title:Volume 🔊} {description:Volume instellen 📻:
-1 - 🔈 50%
-2 - 🔉 100%
-3 - 🔊 150%}{color:3348a1}{footer:Volume instelligen opgevraagd door $username[$authorID].};yes]; ]
+1 - 🔈 20%
+2 - 🔉 50%
+3 - 🔊 100%}{color:FFD700}{footer:Volume instelligen opgevraagd door $username[$authorID].};yes]; ]
 $onlyIf[$voiceID!=;{color:RED} {description:Je zit niet in een VC!}]`
 }) 
 
 
 bot.awaitedCommand({
     name: "awaitReaction5",
- code: `$volume[50]`
+ code: `$volume[20]`
 })
 
 bot.awaitedCommand({
     name: "awaitReaction6",
-    code: `$volume[100]`
+    code: `$volume[50]`
 })
     
 bot.awaitedCommand({
     name: "awaitReaction7",
-    code: `$volume[150]`
+    code: `$volume[100]`
 })
 
 bot.command({
@@ -737,12 +738,21 @@ $footer[Opgevraagd door: $username;$authorAvatar]
 $color[RANDOM]`
 })
 
+bot.interactionCommand({
+name: "lyrics",
+code: `$interactionReply[{title:Lyrics}{description:$jsonRequest[https://some-random-api.ml/lyrics?title=$songInfo[title];lyrics;]} {footer:Lyrics aangevraagd door $userTag;$authorAvatar} {color:FFD700}]
+  $onlyIf[$songInfo[title]!=;{color:RED}
+  {description:Er wordt niks afgespeeld!}]
+  $onlyIf[$voiceID!=;{color:RED}
+  {description:Je zit niet in een VC!}]`
+})
+
 bot.command({
 name: "skip",
 aliases: ["s"],
 code: `$skipSong
 $title[Skip]
-$description[⏭ [**$songInfo[title]**\\]($songInfo[url]) geskipt.]
+$description[⏭ [**$songInfo[title]**]($songInfo[url]) geskipt.]
 $addCmdReactions[⏭]
 $footer[Wachtrij: $queueLength | Geskipt door $username.;$authorAvatar]
 $color[RANDOM]
@@ -1669,4 +1679,10 @@ $wait[2s]
 $textSplit[$sendMessage[**$getUserVar[gems] $customEmoji[bsGem] worden gegenereerd...**;yes]; ]
 $wait[3s]
 `
+})
+
+
+bot.command({
+  name: "tts",
+  code: `$playFile[https://d1qx7pbj0dvboc.cloudfront.net;hello.mp3]`
 })
